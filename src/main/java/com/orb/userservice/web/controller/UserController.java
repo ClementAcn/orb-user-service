@@ -6,11 +6,11 @@ import com.orb.userservice.web.exceptions.UserNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @Api(description = "API pour les opérations CRUD sur les utilisateurs")
@@ -36,5 +36,31 @@ public class UserController {
             throw new UserNotFoundException("Utilisateur inexistant");
 
         return _userDao.findById(id);
+    }
+
+    @ApiOperation(value = "Recupere un utilisateur en fonction de son pseudo")
+    @GetMapping(value = "/findByPseudo")
+    public User getByPseudo(@RequestParam("pseudo") String pseudo){
+        return _userDao.findByPseudo(pseudo);
+    }
+
+    @ApiOperation(value = "Ajout d'un utilisateur")
+    @PostMapping(value = "/")
+    public ResponseEntity<User> create(@RequestBody User user){
+        //Avant d'ajouter un élément à la base, on va vérifier
+        // si le pseudo et le mail ne sont pas déjà utilisés
+
+        User userAdded = _userDao.save(user);
+
+        if(userAdded == null)
+            return ResponseEntity.noContent().build();
+
+        URI loc = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(userAdded.getId())
+                .toUri();
+
+        return ResponseEntity.created(loc).build();
     }
 }
