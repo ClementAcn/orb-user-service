@@ -44,6 +44,12 @@ public class UserController {
         return _userDao.findByPseudo(pseudo);
     }
 
+    @ApiOperation(value = "Recupere un utilisateur en fonction de son mail")
+    @GetMapping(value = "/findByMail")
+    public User getByMail(@RequestParam("mail") String mail){
+        return _userDao.findByMail(mail);
+    }
+
     @ApiOperation(value = "Ajout d'un utilisateur")
     @PostMapping(value = "/")
     public ResponseEntity<User> create(@RequestBody User user){

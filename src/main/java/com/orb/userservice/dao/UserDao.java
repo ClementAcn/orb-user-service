@@ -15,6 +15,9 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
     User findById(int id);
 
-    @Query(value = "SELECT * from User s where s.pseudo = :pseudo", nativeQuery = true)
+    @Query(value = "SELECT * from USER s where s.pseudo = :pseudo", nativeQuery = true)
     User findByPseudo(@Param("pseudo") String pseudo);
+
+    @Query(value = "SELECT * from USER s WHERE s.mail = :mail", nativeQuery = true)
+    User findByMail(@Param("mail") String mail);
 }
