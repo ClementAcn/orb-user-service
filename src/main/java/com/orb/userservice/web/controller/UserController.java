@@ -2,6 +2,7 @@ package com.orb.userservice.web.controller;
 
 import com.orb.userservice.dao.UserDao;
 import com.orb.userservice.model.User;
+import com.orb.userservice.web.exceptions.UserAlreadyExists;
 import com.orb.userservice.web.exceptions.UserNotFoundException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,10 +53,13 @@ public class UserController {
 
     @ApiOperation(value = "Ajout d'un utilisateur")
     @PostMapping(value = "/")
-    public ResponseEntity<User> create(@RequestBody User user){
-        //Avant d'ajouter un élément à la base, on va vérifier
-        // si le pseudo et le mail ne sont pas déjà utilisés
+    public ResponseEntity<User> create(@RequestBody User user) throws UserAlreadyExists {
 
+        if(_userDao.findByMail(user.getMail()) != null)
+            throw new UserAlreadyExists("L'adresse mail est déjà utilisée pour un autre compte.");
+        if(_userDao.findByPseudo(user.getPseudo()) != null)
+            throw new UserAlreadyExists("Ce pseudo existe déjà pour un autre compte");
+        
         User userAdded = _userDao.save(user);
 
         if(userAdded == null)
