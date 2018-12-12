@@ -59,7 +59,7 @@ public class UserController {
             throw new UserAlreadyExists("L'adresse mail est déjà utilisée pour un autre compte.");
         if(_userDao.findByPseudo(user.getPseudo()) != null)
             throw new UserAlreadyExists("Ce pseudo existe déjà pour un autre compte");
-        
+
         User userAdded = _userDao.save(user);
 
         if(userAdded == null)
@@ -72,5 +72,17 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(loc).build();
+    }
+
+    @ApiOperation(value = "Mise à jour d'un utilisateur")
+    @PutMapping(value = "/")
+    public User update(@RequestBody User user){
+        return _userDao.save(user);
+    }
+
+    @ApiOperation(value = "Suppression d'un utilisateur")
+    @DeleteMapping(value = "/")
+    public void delete(@RequestBody User user){
+        _userDao.delete(user);
     }
 }
