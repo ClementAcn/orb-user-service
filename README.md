@@ -24,6 +24,10 @@ mvn clean install
 java -jar target/score-service-0.0.1-SNAPSHOT.jar
 ``
 
+## Documentation de l'API
+Actuellement ce service tourne sur le port 9090. <br/>
+La documentation sera donc accessible via cette url : <br/>
+http://localhost:9090/swagger-ui.html
 
 ## Contributeurs
 * Matthieu Meaux

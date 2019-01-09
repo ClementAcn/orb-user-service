@@ -63,12 +63,12 @@ class UserController {
 
     @ApiOperation(value = "Connexion d'un utilisateur")
     @PostMapping(value = "/login")
-    public boolean login(@RequestParam String pseudo, @RequestParam String password) throws UserNotFoundException {
+    public User login(@RequestParam String pseudo, @RequestParam String password) throws UserNotFoundException {
         User user = getByPseudo(pseudo);
         if(user == null)
             throw new UserNotFoundException("Utilisateur non existant");
         if(!user.getPassword().equals(password))
-            return false;
-        return true;
+            return null;
+        return user;
     }
 }
