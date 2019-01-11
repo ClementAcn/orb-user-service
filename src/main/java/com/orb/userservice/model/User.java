@@ -25,6 +25,8 @@ public class User {
     @Column(updatable = false)
     private Timestamp creation_date;
 
+    public User(){}
+
     public User(String pseudo, String mail, String password) {
         this.pseudo = pseudo;
         this.mail = mail;
