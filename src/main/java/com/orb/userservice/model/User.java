@@ -25,6 +25,11 @@ public class User {
     @Column(updatable = false)
     private Timestamp creation_date;
 
+    public User(String pseudo, String mail, String password) {
+        this.pseudo = pseudo;
+        this.mail = mail;
+        this.password = password;
+    }
 
     public int getId() {
         return id;
