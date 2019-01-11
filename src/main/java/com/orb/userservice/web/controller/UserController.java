@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Api(description = "API pour les opérations CRUD sur les utilisateurs")
+@CrossOrigin(origins = "http://localhost:9090", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/user")
 class UserController {
